@@ -7,7 +7,7 @@ class Player
 
   def initialize(name)
     @name = name
-    @player_cash = 100
+    @cash = 100
     @history = []
     @cards = []
     @scores = 0

@@ -11,9 +11,15 @@ module Deal
   end
 
   def print_cards
-    print "Карты: "
+    print "#{self.name} - Карты: "
     self.cards.each do |card|
       print "#{card} "
+    end
+  end
+
+  def first_deal
+    2.times do
+      self.deal
     end
   end
 

@@ -7,3 +7,4 @@ require_relative './deal'
 
 game = Game.new
 game.meeting
+game.run
