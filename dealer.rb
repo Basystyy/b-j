@@ -2,15 +2,19 @@
 
 class Dealer
   include Deal
-  attr_accessor :cards, :scores, :dealer_cash
-  attr_reader :history
-
+  attr_reader :name
+  attr_accessor :history, :cash, :cards, :scores
+  
   def initialize(name)
     @name = name
-    @dealer_cash = 100
+    @cash = 100
     @history = []
     @cards = []
     @scores = 0
+  end
+
+  def first_status
+    puts "Катала - Карты: * *; Очки: *"
   end
 
 end

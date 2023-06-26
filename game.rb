@@ -7,44 +7,125 @@ class Game
 
   def meeting
     puts "Представьтесь, пожалуйста"
-    player = Player.new(gets.chomp)
-    dealer = Dealer.new('Катала')
-    puts "#{player.name}, #{dealer.name} приветствует Вас в казино 'Домой без штанов'!"
+    @player = Player.new(gets.chomp)
+    @dealer = Dealer.new('Катала')
+    puts "#{@player.name}, #{@dealer.name} приветствует Вас в казино 'Домой без штанов'!"
   end
 
   def run
-    puts "На Вашем счету пока что #{player.player_cash} уже почти моих денежных единиц."
-    puts "Ставка 5 единиц. Делаете ставку? ( 1 - Да)"
-    start = gets.chomp
+    puts "На Вашем счету пока что #{@player.cash} уже почти моих денежных единиц."
+    puts "Ставка 10 единиц. Делаете ставку? ( 1 - Да)"
+    start = gets.chomp.to_i
     agreement if start == 1
     negation if start != 1
   end
 
   def agreement
     deck = Deck.new
-    @player_cash -= 5
-    @dealer_cash -= 5
-    @bank = 10
-    player_act
+    deck.shuffle_cards
+    @player.cash -= 10
+    @dealer.cash -= 10
+    @bank = 20
+    start
   end
 
   def negation
     puts "Мы еще втретимся, жадина..."
     self.run
   end
+  
+  def start
+    @player.first_deal
+    @player.status
+    @dealer.first_deal
+    @dealer.first_status
+    player_display
+    player_act
+  end
 
-  def first_deal
-    2.times do
-      self.deal
+  def status_display
+    @player.status
+    @dealer.status
+  end
+
+  def player_display
+    puts "#{@player.name}, доступные для выбора варинаты:"
+    puts "1 - пропустить; 2 - добавить карту; 3 - вскрыть"
+  end
+
+  def player_act
+    select = gets.chomp.to_i
+    case select
+    when 1
+      dealer_act
+    when 2
+      @player.deal
+      dealer_win if @player.scores > 21
+      dealer_act
+    when 3
+      winner
     end
   end
-  
-  def player_act
-    first_deal
-    status
-    puts "Еще карту?"
-    choice = gets.chomp
-    
+
+  def dealer_act
+    @dealer.deal if @player.scores > @dealer.scores && @dealer.scores < 17
+    player_win if @dealer.scores > 21
+    winner
+  end
+
+  def winner
+    if @player.scores == @dealer.scores
+      @player.cash += 10
+      @dealer.scores += 10
+      finish
+    else
+      player_win if @player.scores > @dealer.scores
+      dealer_win if @player.scores <= @dealer.scores
+    end
+  end
+
+  def player_win
+    status_display
+    puts "#{@player.name} выиграл!!!"
+    @player.cash += @bank
+    finish
+    if @dealer.cash != 0
+      run
+    else
+      puts "#{@player.name}, хотите проиграть еще немного денег?))) 1- Да"
+      flag = gets.chomp.to_i
+      if flag == 1
+        meeting
+      else
+        return
+      end
+    end
+  end
+
+  def dealer_win
+    status_display
+    puts "Катала выиграл!!!"
+    @dealer.cash += @bank
+    finish
+    if @player.cash != 0
+      run
+    else
+      puts "#{@player.name}, хотите проиграть еще немного денег?))) 1- Да"
+      flag = gets.chomp.to_i
+      if flag == 1
+        meeting
+      else
+        return
+      end
+    end
+  end
+
+  def finish
+    @bank = 0
+    @player.cards = []
+    @player.scores = 0
+    @dealer.cards = []
+    @dealer.scores = 0
   end
 
 end

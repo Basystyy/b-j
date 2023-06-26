@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
+
 class Player
   include Deal
-  attr_reader :cards, :scores, player_cash
-  attr_reader :history
+  attr_reader :name
+  attr_accessor :history, :cash, :cards, :scores
 
   def initialize(name)
     @name = name
-    @player_cash = 100
+    @cash = 100
     @history = []
     @cards = []
     @scores = 0
