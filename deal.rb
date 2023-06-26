@@ -3,7 +3,7 @@
 module Deal
   def deal
     card = deck.play_deck[0]
-    score = 1 if card[0] == 'A' && if @scores > 11
+    score = 1 if card[0] == 'A' && @scores > 11
     score = deck.card_score[card[0]]
     @scores += score
     @cards << card

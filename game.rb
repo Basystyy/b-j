@@ -7,13 +7,13 @@ class Game
 
   def meeting
     puts "Представьтесь, пожалуйста"
-    player = Player.new(gets.chomp)
-    dealer = Dealer.new('Катала')
-    puts "#{player.name}, #{dealer.name} приветствует Вас в казино 'Домой без штанов'!"
+    @player = Player.new(gets.chomp)
+    @dealer = Dealer.new('Катала')
+    puts "#{@player.name}, #{@dealer.name} приветствует Вас в казино 'Домой без штанов'!"
   end
 
   def run
-    puts "На Вашем счету пока что #{player.cash} уже почти моих денежных единиц."
+    puts "На Вашем счету пока что #{@player.cash} уже почти моих денежных единиц."
     puts "Ставка 10 единиц. Делаете ставку? ( 1 - Да)"
     start = gets.chomp.to_i
     agreement if start == 1
@@ -21,9 +21,10 @@ class Game
   end
 
   def agreement
-    deck = Deck.new
-    player.cash -= 10
-    dealer.cash -= 10
+    @deck = Deck.new
+    @deck.shuffle_cards
+    @player.cash -= 10
+    @dealer.cash -= 10
     @bank = 20
     start
   end
@@ -34,21 +35,21 @@ class Game
   end
   
   def start
-    player.first_deal
-    player.status
-    dealer.first_deal
-    dealer.first_status
+    @player.first_deal
+    @player.status
+    @dealer.first_deal
+    @dealer.first_status
     player_display
     player_act
   end
 
   def status_display
-    player.status
-    dealer.status
+    @player.status
+    @dealer.status
   end
 
   def player_display
-    puts "#{player.name}, доступные для выбора варинаты:"
+    puts "#{@player.name}, доступные для выбора варинаты:"
     puts "1 - пропустить; 2 - добавить карту; 3 - вскрыть"
   end
 
@@ -59,38 +60,39 @@ class Game
     when 1
       dealer_act
     when 2
-      player.deal
-      dealer_win if player.scores > 21
+      @player.deal
+      dealer_win if @player.scores > 21
       dealer_act
     when 3
       winner
+    end
   end
 
   def dealer_act
-    dealer.deal if player.scores > dealer.scores && dealer.scores != 17
-    player_win if dealer.scores > 21
+    @dealer.deal if @player.scores > @dealer.scores && @dealer.scores != 17
+    player_win if @dealer.scores > 21
     winner
   end
 
   def winner
-    player_win if player.scores > dealer.scores
-    dealer_win if player.scores <= dealer.scores
+    player_win if @player.scores > @dealer.scores
+    dealer_win if @player.scores <= @dealer.scores
   end
 
   def player_win
     status_display
-    puts "#{player.name} выиграл!!!"
-    player.cash += @bank
+    puts "#{@player.name} выиграл!!!"
+    @player.cash += @bank
     @bank = 0
-    run if dealer.cash != 0
+    run if @dealer.cash != 0
   end
 
   def dealer_win
     status_display
     puts "Катала выиграл!!!"
-    dealer.cash += @bank
+    @dealer.cash += @bank
     @bank = 0
-    run if player.cash != 0
+    run if @player.cash != 0
   end
 
 end

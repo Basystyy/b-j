@@ -2,9 +2,9 @@
 
 class Dealer
   include Deal
-  attr_accessor :cards, :scores, :dealer_cash
-  attr_reader :history
-
+  attr_reader :name
+  attr_accessor :history, :cash, :cards, :scores
+  
   def initialize(name)
     @name = name
     @cash = 100
