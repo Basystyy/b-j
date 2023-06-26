@@ -3,8 +3,15 @@
 module Deal
   def deal
     card = Deck.play_deck[0]
-    score = 1 if card[0] == 'A' && @scores > 11
-    score = Deck.card_score[card[0]].to_i
+    if card[0] == 'A' && @scores >= 11
+      score = 1
+    else
+      if card[0] == '1'
+        score = 10
+      else
+        score = Deck.card_score[card[0]].to_i
+      end
+    end
     @scores += score
     @cards << card
     Deck.play_deck.delete(card)

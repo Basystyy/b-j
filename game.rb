@@ -68,14 +68,20 @@ class Game
   end
 
   def dealer_act
-    @dealer.deal if @player.scores > @dealer.scores && @dealer.scores != 17
+    @dealer.deal if @player.scores > @dealer.scores && @dealer.scores < 17
     player_win if @dealer.scores > 21
     winner
   end
 
   def winner
-    player_win if @player.scores > @dealer.scores
-    dealer_win if @player.scores <= @dealer.scores
+    if @player.scores == @dealer.scores
+      @player.cash += 10
+      @dealer.scores += 10
+      finish
+    else
+      player_win if @player.scores > @dealer.scores
+      dealer_win if @player.scores <= @dealer.scores
+    end
   end
 
   def player_win
@@ -83,7 +89,17 @@ class Game
     puts "#{@player.name} выиграл!!!"
     @player.cash += @bank
     finish
-    run if @dealer.cash != 0
+    if @dealer.cash != 0
+      run
+    else
+      puts "#{@player.name}, хотите проиграть еще немного денег?))) 1- Да"
+      flag = gets.chomp.to_i
+      if flag == 1
+        meeting
+      else
+        return
+      end
+    end
   end
 
   def dealer_win
@@ -91,7 +107,17 @@ class Game
     puts "Катала выиграл!!!"
     @dealer.cash += @bank
     finish
-    run if @player.cash != 0
+    if @player.cash != 0
+      run
+    else
+      puts "#{@player.name}, хотите проиграть еще немного денег?))) 1- Да"
+      flag = gets.chomp.to_i
+      if flag == 1
+        meeting
+      else
+        return
+      end
+    end
   end
 
   def finish
