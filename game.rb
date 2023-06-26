@@ -54,8 +54,7 @@ class Game
   end
 
   def player_act
-    player_display
-    select = gets.chomp
+    select = gets.chomp.to_i
     case select
     when 1
       dealer_act
@@ -83,7 +82,7 @@ class Game
     status_display
     puts "#{@player.name} выиграл!!!"
     @player.cash += @bank
-    @bank = 0
+    finish
     run if @dealer.cash != 0
   end
 
@@ -91,8 +90,16 @@ class Game
     status_display
     puts "Катала выиграл!!!"
     @dealer.cash += @bank
-    @bank = 0
+    finish
     run if @player.cash != 0
+  end
+
+  def finish
+    @bank = 0
+    @player.cards = []
+    @player.scores = 0
+    @dealer.cards = []
+    @dealer.scores = 0
   end
 
 end
