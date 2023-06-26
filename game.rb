@@ -21,8 +21,8 @@ class Game
   end
 
   def agreement
-    @deck = Deck.new
-    @deck.shuffle_cards
+    deck = Deck.new
+    deck.shuffle_cards
     @player.cash -= 10
     @dealer.cash -= 10
     @bank = 20

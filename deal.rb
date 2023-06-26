@@ -2,12 +2,12 @@
 
 module Deal
   def deal
-    card = deck.play_deck[0]
+    card = Deck.play_deck[0]
     score = 1 if card[0] == 'A' && @scores > 11
-    score = deck.card_score[card[0]]
+    score = Deck.card_score[card[0]].to_i
     @scores += score
     @cards << card
-    deck.play_deck -= card
+    Deck.play_deck.delete(card)
   end
 
   def print_cards
