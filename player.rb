@@ -1,7 +1,11 @@
 # frozen_string_literal: true
-
+require_relative './deck'
 
 class Player
+
+  CARD_SCORE = {'A' => 11, 'K' => 10, 'Q' => 10, 'J' => 10, '10' => 10, '9' => 9, '8' => 8,
+  '7' => 7, '6' => 6, '5' => 5, '4' => 4, '3' => 3, '2' => 2}
+  
   attr_reader :name
   attr_accessor :history, :cash, :cards, :scores
 
@@ -15,16 +19,6 @@ class Player
 
   def deal
     card = Deck.play_deck[0]
-    if card[0] == 'A' && @scores >= 11
-      score = 1
-    else
-      if card[0] == '1'
-        score = 10
-      else
-        score = Deck.card_score[card[0]].to_i
-      end
-    end
-    @scores += score
     @cards << card
     Deck.play_deck.delete(card)
   end
@@ -42,11 +36,22 @@ class Player
     end
   end
 
+  def sum_scores
+    @scores = 0
+    @cards.each do |card|
+      card = card.sub(card[-1], '')
+      score = CARD_SCORE[card].to_i
+      @scores += score
+    end
+  end
+
   def print_scores
+    sum_scores
     puts "Очки: #{self.scores}"
   end
 
   def status
+    sum_scores
     print_cards
     print_scores
   end

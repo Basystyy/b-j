@@ -24,7 +24,6 @@ class Game
 
   def agreement
     deck = Deck.new
-    deck.shuffle_cards
     @player.cash -= RATE
     @dealer.cash -= RATE
     @bank = RATE * 2
@@ -62,6 +61,7 @@ class Game
       dealer_act
     when 2
       @player.deal
+      @player.sum_scores
       dealer_win if @player.scores > 21
       dealer_act
     when 3
@@ -76,6 +76,8 @@ class Game
   end
 
   def winner
+    @player.sum_scores
+    @dealer.sum_scores
     if @player.scores == @dealer.scores
       @player.cash += RATE
       @dealer.cash += RATE
