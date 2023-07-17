@@ -23,6 +23,7 @@ class Game
   end
 
   def agreement
+    clear
     deck = Deck.new
     @player.cash -= RATE
     @dealer.cash -= RATE
@@ -50,18 +51,19 @@ class Game
   end
 
   def player_display
+    puts "В банке: #{@bank}"
     puts "#{@player.name}, доступные для выбора варинаты:"
     puts "1 - пропустить; 2 - добавить карту; 3 - вскрыть"
   end
 
   def player_act
+    members_scores
     select = gets.chomp.to_i
     case select
     when 1
       dealer_act
     when 2
       @player.deal
-      @player.sum_scores
       dealer_win if @player.scores > 21
       dealer_act
     when 3
@@ -70,18 +72,17 @@ class Game
   end
 
   def dealer_act
+    members_scores
     @dealer.deal if @player.scores > @dealer.scores && @dealer.scores < 17
     player_win if @dealer.scores > 21
     winner
   end
 
   def winner
-    @player.sum_scores
-    @dealer.sum_scores
+    members_scores
     if @player.scores == @dealer.scores
       @player.cash += RATE
       @dealer.cash += RATE
-      finish
     else
       player_win if @player.scores > @dealer.scores
       dealer_win if @player.scores < @dealer.scores
@@ -92,7 +93,6 @@ class Game
     status_display
     puts "#{@player.name} выиграл!!!"
     @player.cash += @bank
-    finish
     if @dealer.cash != 0
       run
     else
@@ -110,7 +110,6 @@ class Game
     status_display
     puts "Катала выиграл!!!"
     @dealer.cash += @bank
-    finish
     if @player.cash != 0
       run
     else
@@ -124,7 +123,12 @@ class Game
     end
   end
 
-  def finish
+  def members_scores
+    @player.sum_scores
+    @dealer.sum_scores
+  end
+
+  def clear
     @bank = 0
     @player.cards = []
     @player.scores = 0
