@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class Dealer
-  include Deal
+class Dealer < Player
   attr_reader :name
   attr_accessor :history, :cash, :cards, :scores
   

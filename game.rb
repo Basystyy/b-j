@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Game
+  RATE = 10
+
   def initialize
     @bank = 0
   end
@@ -14,7 +16,7 @@ class Game
 
   def run
     puts "На Вашем счету пока что #{@player.cash} уже почти моих денежных единиц."
-    puts "Ставка 10 единиц. Делаете ставку? ( 1 - Да)"
+    puts "Ставка #{RATE} единиц. Делаете ставку? ( 1 - Да)"
     start = gets.chomp.to_i
     agreement if start == 1
     negation if start != 1
@@ -23,9 +25,9 @@ class Game
   def agreement
     deck = Deck.new
     deck.shuffle_cards
-    @player.cash -= 10
-    @dealer.cash -= 10
-    @bank = 20
+    @player.cash -= RATE
+    @dealer.cash -= RATE
+    @bank = RATE * 2
     start
   end
 
@@ -75,12 +77,12 @@ class Game
 
   def winner
     if @player.scores == @dealer.scores
-      @player.cash += 10
-      @dealer.scores += 10
+      @player.cash += RATE
+      @dealer.cash += RATE
       finish
     else
       player_win if @player.scores > @dealer.scores
-      dealer_win if @player.scores <= @dealer.scores
+      dealer_win if @player.scores < @dealer.scores
     end
   end
 
