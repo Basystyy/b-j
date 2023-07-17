@@ -57,13 +57,13 @@ class Game
   end
 
   def player_act
-    members_scores
     select = gets.chomp.to_i
     case select
     when 1
       dealer_act
     when 2
       @player.deal
+      members_scores
       dealer_win if @player.scores > 21
       dealer_act
     when 3
@@ -74,6 +74,7 @@ class Game
   def dealer_act
     members_scores
     @dealer.deal if @player.scores > @dealer.scores && @dealer.scores < 17
+    members_scores
     player_win if @dealer.scores > 21
     winner
   end
