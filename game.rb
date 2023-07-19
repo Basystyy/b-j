@@ -90,6 +90,16 @@ class Game
     end
   end
 
+  def continuation
+    puts "#{@player.name}, хотите проиграть еще немного денег?))) 1- Да"
+    flag = gets.chomp.to_i
+    if flag == 1
+      meeting
+    else
+      return
+    end
+  end
+
   def player_win
     status_display
     puts "#{@player.name} выиграл!!!"
@@ -97,13 +107,7 @@ class Game
     if @dealer.cash != 0
       run
     else
-      puts "#{@player.name}, хотите проиграть еще немного денег?))) 1- Да"
-      flag = gets.chomp.to_i
-      if flag == 1
-        meeting
-      else
-        return
-      end
+      continuation
     end
   end
 
@@ -114,13 +118,7 @@ class Game
     if @player.cash != 0
       run
     else
-      puts "#{@player.name}, хотите проиграть еще немного денег?))) 1- Да"
-      flag = gets.chomp.to_i
-      if flag == 1
-        meeting
-      else
-        return
-      end
+      continuation
     end
   end
 

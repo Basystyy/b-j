@@ -40,7 +40,11 @@ class Player
     @scores = 0
     @cards.each do |card|
       card = card.sub(card[-1], '')
-      score = CARD_SCORE[card].to_i
+      if card == 'A' && @scores > 11
+        score = 1
+      else
+        score = CARD_SCORE[card].to_i
+      end
       @scores += score
     end
   end
