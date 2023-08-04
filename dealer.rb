@@ -2,14 +2,10 @@
 
 class Dealer < Player
   attr_reader :name
-  attr_accessor :history, :cash, :cards, :scores
+  attr_accessor :cash, :cards, :scores
   
   def initialize(name)
-    @name = name
-    @cash = 100
-    @history = []
-    @cards = []
-    @scores = 0
+    super
   end
 
   def first_status

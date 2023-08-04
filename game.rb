@@ -59,34 +59,30 @@ class Game
   def player_act
     select = gets.chomp.to_i
     case select
-    when 1
-      dealer_act
-    when 2
-      @player.deal
-      members_scores
-      dealer_win if @player.scores > 21
-      dealer_act
-    when 3
-      winner
+      when 1
+        dealer_act
+      when 2
+        @player.deal
+        dealer_win if @player.sum_scores > 21
+        dealer_act
+      when 3
+        winner
     end
   end
 
   def dealer_act
-    members_scores
-    @dealer.deal if @player.scores > @dealer.scores && @dealer.scores < 17
-    members_scores
-    player_win if @dealer.scores > 21
+    @dealer.deal if @player.sum_scores > @dealer.sum_scores && @dealer.sum_scores < 17
+    player_win if @dealer.sum_scores > 21
     winner
   end
 
   def winner
-    members_scores
-    if @player.scores == @dealer.scores
+    if @player.sum_scores == @dealer.sum_scores
       @player.cash += RATE
       @dealer.cash += RATE
     else
-      player_win if @player.scores > @dealer.scores
-      dealer_win if @player.scores < @dealer.scores
+      player_win if @player.sum_scores > @dealer.sum_scores
+      dealer_win if @player.sum_scores < @dealer.sum_scores
     end
   end
 
@@ -122,17 +118,10 @@ class Game
     end
   end
 
-  def members_scores
-    @player.sum_scores
-    @dealer.sum_scores
-  end
-
   def clear
     @bank = 0
     @player.cards = []
-    @player.scores = 0
     @dealer.cards = []
-    @dealer.scores = 0
   end
 
 end
