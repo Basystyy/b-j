@@ -80,6 +80,8 @@ class Game
     if @player.sum_scores == @dealer.sum_scores
       @player.cash += RATE
       @dealer.cash += RATE
+      puts "Ничья. Ставки возвращены."
+      run
     else
       player_win if @player.sum_scores > @dealer.sum_scores
       dealer_win if @player.sum_scores < @dealer.sum_scores
