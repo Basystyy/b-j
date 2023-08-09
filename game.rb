@@ -8,7 +8,7 @@ class Game
   end
 
   def meeting
-    puts "Представьтесь, пожалуйста"
+    puts 'Представьтесь, пожалуйста'
     @player = Player.new(gets.chomp)
     @dealer = Dealer.new('Катала')
     puts "#{@player.name}, #{@dealer.name} приветствует Вас в казино 'Домой без штанов'!"
@@ -32,10 +32,10 @@ class Game
   end
 
   def negation
-    puts "Мы еще втретимся, жадина..."
-    self.run
+    puts 'Мы еще втретимся, жадина...'
+    run
   end
-  
+
   def start
     @player.first_deal
     @dealer.first_deal
@@ -57,20 +57,20 @@ class Game
   def player_display
     puts "В банке: #{@bank}"
     puts "#{@player.name}, доступные для выбора варинаты:"
-    puts "1 - пропустить; 2 - добавить карту; 3 - вскрыть"
+    puts '1 - пропустить; 2 - добавить карту; 3 - вскрыть'
   end
 
   def player_act
     select = gets.chomp.to_i
     case select
-      when 1
-        dealer_act
-      when 2
-        @player.deal
-        dealer_win if @player.sum_scores > 21
-        dealer_act
-      when 3
-        winner
+    when 1
+      dealer_act
+    when 2
+      @player.deal
+      dealer_win if @player.sum_scores > 21
+      dealer_act
+    when 3
+      winner
     end
   end
 
@@ -92,7 +92,7 @@ class Game
       @player.cash += RATE
       @dealer.cash += RATE
       status_display
-      puts "Ничья. Ставки возвращены."
+      puts 'Ничья. Ставки возвращены.'
       run
     else
       player_win if @player.sum_scores > @dealer.sum_scores
@@ -103,11 +103,9 @@ class Game
   def continuation
     puts "#{@player.name}, хотите проиграть еще немного денег?))) 1- Да"
     flag = gets.chomp.to_i
-    if flag == 1
-      meeting
-    else
-      return
-    end
+    return unless flag == 1
+
+    meeting
   end
 
   def player_win
@@ -123,7 +121,7 @@ class Game
 
   def dealer_win
     status_display
-    puts "Катала выиграл!!!"
+    puts 'Катала выиграл!!!'
     @dealer.cash += @bank
     if @player.cash != 0
       run
@@ -137,5 +135,4 @@ class Game
     @player.cards = []
     @dealer.cards = []
   end
-
 end
