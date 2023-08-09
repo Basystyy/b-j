@@ -46,7 +46,7 @@ class Player
     sort_cards
     @cards.each do |card|
       card = card.sub(card[-1], '')
-      if card == 'A' && scores > 11
+      if card == 'A' && scores > 10
         score = 1
       else
         score = Deck::CARD_SCORE[card].to_i

@@ -38,11 +38,15 @@ class Game
   
   def start
     @player.first_deal
-    @player.status
     @dealer.first_deal
-    @dealer.first_status
-    player_display
-    player_act
+    if @player.sum_scores == 22 || @player.sum_scores == 21
+      winner
+    else
+      @player.status
+      @dealer.first_status
+      player_display
+      player_act
+    end
   end
 
   def status_display
@@ -71,15 +75,23 @@ class Game
   end
 
   def dealer_act
-    @dealer.deal if @player.sum_scores > @dealer.sum_scores && @dealer.sum_scores < 17
-    player_win if @dealer.sum_scores > 21
-    winner
+    if @dealer.sum_scores == 22
+      winner
+    else
+      @dealer.deal if @player.sum_scores > @dealer.sum_scores && @dealer.sum_scores < 17
+      if @dealer.sum_scores > 21
+        player_win
+      else
+        winner
+      end
+    end
   end
 
   def winner
     if @player.sum_scores == @dealer.sum_scores
       @player.cash += RATE
       @dealer.cash += RATE
+      status_display
       puts "Ничья. Ставки возвращены."
       run
     else
