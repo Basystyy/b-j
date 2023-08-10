@@ -7,4 +7,3 @@ require_relative './dealer'
 
 game = Game.new
 game.meeting
-game.run

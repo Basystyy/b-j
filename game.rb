@@ -12,6 +12,8 @@ class Game
     @player = Player.new(gets.chomp)
     @dealer = Dealer.new('Катала')
     puts "#{@player.name}, #{@dealer.name} приветствует Вас в казино 'Домой без штанов'!"
+    clear
+    run
   end
 
   def run
@@ -109,10 +111,10 @@ class Game
   end
 
   def player_win
-    status_display
     puts "#{@player.name} выиграл!!!"
-    @player.cash += @bank
     if @dealer.cash != 0
+      @player.cash += @bank
+      status_display
       run
     else
       continuation
@@ -120,10 +122,10 @@ class Game
   end
 
   def dealer_win
-    status_display
     puts 'Катала выиграл!!!'
-    @dealer.cash += @bank
     if @player.cash != 0
+      @dealer.cash += @bank
+      status_display
       run
     else
       continuation
